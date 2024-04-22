@@ -1,0 +1,48 @@
+Project Name : Tetris
+
+Nikhil Muthukumar, Karan Patel, Mohammad Hussein
+
+Overview:
+Tetris is a single player game, where the user controls falling geometric shapes and moves them horizontally and rotates them. The objective of the game is to not let the shapes reach the top and to get them all in a horizontal line. There is a variety of 7 different shapes that are falling, that you fit into each other to create a full line of shapes and earn points. At the start of the game, the player is given an empty box and an initial tetris piece. They can move it left, right, down or rotate. Scoring is based on the number of lines completed, as the more lines completed at once, the higher the score multiplier and score added. The game becomes more challenging as after a certain number of lines have been completed, the blocks come faster. Game controls are simple: arrow keys and spacebar to place immediately. Up arrow key rotates it 90 degrees clockwise and left and right keys move it left and right, and the down key moves it one space down. There will b two boxes as well on the side of the game, one showing what the next piece will be (so that the player can prepare their next move) , and the other to show the score.This game offers a classic puzzle solving gaming experience that focuses on the player’s quick thinking and strategic planning skills.
+
+Classes:
+Main - Initialize the game, instantiates the classes, given parameters (eg, difficulty)
+
+
+Board GUI, contains a grid for piece spaces, 
+Display()
+nextpiecePanel
+scorepanel 
+Main panel
+
+Individual squares
+shape()
+color()
+
+Pieces (made of squares)
+shape 
+color
+rotate() feature
+position
+
+Piece Factory (decides on the piece of each shape randomly)
+Shape
+Color
+
+GameLogic:
+Rows and columns
+Speed level
+score 
+updateGame()
+movepiece()
+rotatepiece()
+checklines()
+removeline()
+
+Observer:
+update()
+gameEnd()
+
+Controller: 
+Handlecontrols()
+
