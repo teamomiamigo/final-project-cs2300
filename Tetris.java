@@ -1,5 +1,4 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
 
 public class Tetris extends JFrame {
     public Tetris() {
@@ -12,7 +11,7 @@ public class Tetris extends JFrame {
 
         setTitle("Tetris");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(300, 600);
+        setSize(315, 650);
         setLocationRelativeTo(null);
         setVisible(true);
     }

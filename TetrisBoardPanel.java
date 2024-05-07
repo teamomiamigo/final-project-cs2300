@@ -1,8 +1,20 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class TetrisBoardPanel extends JPanel implements ActionListener, KeyListener {
     // Constants for piece colors
@@ -23,7 +35,7 @@ public class TetrisBoardPanel extends JPanel implements ActionListener, KeyListe
     private final int WIDTH = BOARD_WIDTH * BLOCK_SIZE;
     private final int HEIGHT = BOARD_HEIGHT * BLOCK_SIZE;
 
-    private boolean[][] grid;
+    private Color[][] grid;
     private Timer timer;
     private ArrayList<Point> currentPiece;
     private Point currentPiecePosition;
@@ -59,7 +71,7 @@ public class TetrisBoardPanel extends JPanel implements ActionListener, KeyListe
     };
 
     public TetrisBoardPanel() {
-        grid = new boolean[BOARD_HEIGHT][BOARD_WIDTH];
+        grid = new Color[BOARD_HEIGHT][BOARD_WIDTH];
         timer = new Timer(INITIAL_DELAY, this);
         currentPiece = new ArrayList<>();
         currentPiecePosition = new Point(BOARD_WIDTH / 2, 0);
@@ -157,7 +169,7 @@ public class TetrisBoardPanel extends JPanel implements ActionListener, KeyListe
         for (Point block : piece) {
             int x = position.x + block.x;
             int y = position.y + block.y;
-            if (x < 0 || x >= BOARD_WIDTH || y < 0 || y >= BOARD_HEIGHT || grid[y][x])
+            if (x < 0 || x >= BOARD_WIDTH || y < 0 || y >= BOARD_HEIGHT || grid[y][x] != null)
                 return false;
         }
         return true;
@@ -178,7 +190,7 @@ public class TetrisBoardPanel extends JPanel implements ActionListener, KeyListe
         for (Point block : currentPiece) {
             int x = currentPiecePosition.x + block.x;
             int y = currentPiecePosition.y + block.y;
-            grid[y][x] = true;
+            grid[y][x] = currentPieceColor;
         }
     }
 
@@ -188,7 +200,7 @@ public class TetrisBoardPanel extends JPanel implements ActionListener, KeyListe
         for (int i = BOARD_HEIGHT - 1; i >= 0; i--) {
             boolean lineFull = true;
             for (int j = 0; j < BOARD_WIDTH; j++) {
-                if (!grid[i][j]) {
+                if (grid[i][j] == null) {
                     lineFull = false;
                     break;
                 }
@@ -222,7 +234,7 @@ public class TetrisBoardPanel extends JPanel implements ActionListener, KeyListe
     private void clearBoard() {
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
-                grid[i][j] = false;
+                grid[i][j] = null;
             }
         }
     }
@@ -262,7 +274,7 @@ public class TetrisBoardPanel extends JPanel implements ActionListener, KeyListe
         g.drawRect(0, 0, WIDTH - 1, HEIGHT - 1);
 
         // Draw gridlines
-        g.setColor(Color.LIGHT_GRAY);
+        g.setColor(Color.BLACK);
         for (int i = 0; i <= BOARD_WIDTH; i++) {
             g.drawLine(i * BLOCK_SIZE, 0, i * BLOCK_SIZE, HEIGHT);
         }
@@ -273,10 +285,10 @@ public class TetrisBoardPanel extends JPanel implements ActionListener, KeyListe
         // Draw grid
         for (int i = 0; i < BOARD_HEIGHT; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++) {
-                if (grid[i][j]) {
+                if (grid[i][j] != null) {
                     int x = j * BLOCK_SIZE;
                     int y = i * BLOCK_SIZE;
-                    g.setColor(landedPieceColor); // Use consistent color for landed pieces
+                    g.setColor(grid[i][j]); // Use consistent color for landed pieces
                     g.fillRect(x, y, BLOCK_SIZE, BLOCK_SIZE);
                 }
             }
@@ -381,7 +393,7 @@ public class TetrisBoardPanel extends JPanel implements ActionListener, KeyListe
         int currentLevel = level;
 
         // Reset all game variables
-        grid = new boolean[BOARD_HEIGHT][BOARD_WIDTH];
+        grid = new Color[BOARD_HEIGHT][BOARD_WIDTH];
         gameOver = false;
         score = 0;
         delay = INITIAL_DELAY;
